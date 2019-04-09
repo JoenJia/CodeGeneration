@@ -1,0 +1,1716 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- edited with XMLSpy v2017 rel. 3 sp1 (http://www.altova.com) by First National Financial (First National Financial) -->
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" attributeFormDefault="unqualified">
+	<xs:element name="Deal">
+		<xs:annotation>
+			<xs:documentation>The loan/deal submission</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="DealInfo">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="Version" type="xs:string"/>
+							<xs:element name="DealType" type="XSEnumCodeType">
+								<xs:annotation>
+									<xs:documentation>Enum: 
+0 Approval, 
+1 Pre-Approval</xs:documentation>
+								</xs:annotation>
+							</xs:element>
+							<xs:element name="ApplicationDate" type="xs:dateTime">
+								<xs:annotation>
+									<xs:documentation>The date deal was initially submitted to any lender.</xs:documentation>
+								</xs:annotation>
+							</xs:element>
+							<xs:element name="SubmissionDate" type="xs:dateTime">
+								<xs:annotation>
+									<xs:documentation>The date deal submitted to FN.</xs:documentation>
+								</xs:annotation>
+							</xs:element>
+							<xs:element name="Purpose" type="XSEnumCodeType">
+								<xs:annotation>
+									<xs:documentation>
+0 - Purchase
+1 - Purcahse + Improvements
+2 - Refinance
+4 - Switch
+5 - Port</xs:documentation>
+								</xs:annotation>
+							</xs:element>
+							<xs:element name="ImprovementFlag" type="xs:int" minOccurs="0">
+								<xs:annotation>
+									<xs:documentation>Indicates if improvements being done on a purchase:
+0 - No
+1 - Yes</xs:documentation>
+								</xs:annotation>
+							</xs:element>
+							<xs:element name="ImprovementsAmount" type="xs:decimal" minOccurs="0"/>
+							<xs:element name="ImprovementsDesc" type="xs:string" minOccurs="0"/>
+							<xs:element name="FinancingWaiverDate" type="xs:string" minOccurs="0"/>
+							<xs:element name="GDS" type="xs:decimal" minOccurs="0"/>
+							<xs:element name="TDS" type="xs:decimal" minOccurs="0"/>
+							<xs:element name="LTV" type="xs:decimal" minOccurs="0"/>
+							<xs:element name="BusinessSource" type="XSEnumCodeType" minOccurs="0">
+								<xs:annotation>
+									<xs:documentation>Enum:
+0 Broker
+</xs:documentation>
+								</xs:annotation>
+							</xs:element>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="Applicant" type="XSApplicantType" maxOccurs="unbounded">
+					<xs:annotation>
+						<xs:documentation>List of applicants</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="RequestedLoan" type="XSRequestedLoanType" maxOccurs="unbounded">
+					<xs:annotation>
+						<xs:documentation>The mortgage/heloc loan details</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="SubjectProperty">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="Property" type="XSSubjectPropertyType">
+								<xs:annotation>
+									<xs:documentation>The subject property on which the loan is requested/secured.</xs:documentation>
+								</xs:annotation>
+							</xs:element>
+							<xs:element name="ExistingLoan" minOccurs="0" maxOccurs="unbounded">
+								<xs:annotation>
+									<xs:documentation>ToDo: Business to review how much information we need to capture about a mortgage on an existing property.</xs:documentation>
+								</xs:annotation>
+								<xs:complexType>
+									<xs:complexContent>
+										<xs:extension base="XSExistingLoanType"/>
+									</xs:complexContent>
+								</xs:complexType>
+							</xs:element>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="Brokerage">
+					<xs:annotation>
+						<xs:documentation>Details about the broker/agent/firm submitting the deal.</xs:documentation>
+					</xs:annotation>
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="Broker" maxOccurs="2">
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element name="Firm" minOccurs="0">
+											<xs:complexType>
+												<xs:sequence>
+													<xs:element name="ID">
+														<xs:simpleType>
+															<xs:restriction base="xs:string">
+																<xs:maxLength value="100"/>
+															</xs:restriction>
+														</xs:simpleType>
+													</xs:element>
+													<xs:element name="Name">
+														<xs:simpleType>
+															<xs:restriction base="xs:string">
+																<xs:maxLength value="200"/>
+															</xs:restriction>
+														</xs:simpleType>
+													</xs:element>
+													<xs:element name="LicenseRegistrationNumber" type="xs:string" minOccurs="0"/>
+													<xs:element name="Contact" type="XSContactMethodsType" minOccurs="0"/>
+													<xs:element name="Address" type="XSAddressType" minOccurs="0"/>
+												</xs:sequence>
+											</xs:complexType>
+										</xs:element>
+										<xs:element name="ID">
+											<xs:simpleType>
+												<xs:restriction base="xs:string">
+													<xs:maxLength value="100"/>
+												</xs:restriction>
+											</xs:simpleType>
+										</xs:element>
+										<xs:element name="BrokerType" type="XSEnumCodeType">
+											<xs:annotation>
+												<xs:documentation>Enum specifying submitting agent, broker of record etc.
+1 - Originator
+2 - Reviewer</xs:documentation>
+											</xs:annotation>
+										</xs:element>
+										<xs:element name="LicenseRegistrationNumber" type="xs:string" minOccurs="0"/>
+										<xs:element name="FirstName">
+											<xs:simpleType>
+												<xs:restriction base="xs:string">
+													<xs:maxLength value="50"/>
+												</xs:restriction>
+											</xs:simpleType>
+										</xs:element>
+										<xs:element name="MiddleName" minOccurs="0">
+											<xs:simpleType>
+												<xs:restriction base="xs:string">
+													<xs:maxLength value="30"/>
+												</xs:restriction>
+											</xs:simpleType>
+										</xs:element>
+										<xs:element name="LastName">
+											<xs:simpleType>
+												<xs:restriction base="xs:string">
+													<xs:maxLength value="50"/>
+												</xs:restriction>
+											</xs:simpleType>
+										</xs:element>
+										<xs:element name="Contact" type="XSContactMethodsType" minOccurs="0"/>
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="System">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="CompanyId">
+								<xs:simpleType>
+									<xs:restriction base="xs:string">
+										<xs:maxLength value="100"/>
+									</xs:restriction>
+								</xs:simpleType>
+							</xs:element>
+							<xs:element name="SubmissionId">
+								<xs:annotation>
+									<xs:documentation>Unique ID for any submission, same deal first submission and re-submission  will have different submissionId</xs:documentation>
+								</xs:annotation>
+								<xs:simpleType>
+									<xs:restriction base="xs:string">
+										<xs:maxLength value="50"/>
+									</xs:restriction>
+								</xs:simpleType>
+							</xs:element>
+							<xs:element name="SenderReferenceId">
+								<xs:annotation>
+									<xs:documentation>external system deal unique id</xs:documentation>
+								</xs:annotation>
+								<xs:simpleType>
+									<xs:restriction base="xs:string">
+										<xs:maxLength value="100"/>
+									</xs:restriction>
+								</xs:simpleType>
+							</xs:element>
+							<xs:element name="SubmissionNumber" type="xs:int" minOccurs="0"/>
+							<xs:element name="RevisionNumber" minOccurs="0">
+								<xs:annotation>
+									<xs:documentation>Holds a refernce to the senders schema version/revision.</xs:documentation>
+								</xs:annotation>
+								<xs:simpleType>
+									<xs:restriction base="xs:string">
+										<xs:maxLength value="50"/>
+									</xs:restriction>
+								</xs:simpleType>
+							</xs:element>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="Party" type="XSPartyType" minOccurs="0" maxOccurs="unbounded">
+					<xs:annotation>
+						<xs:documentation>3rd parties involved who are not submitting agent/broker, e.g. Solicitors etc.</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="Comment" type="XSCommentType" minOccurs="0" maxOccurs="unbounded"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:complexType name="XSAddressType">
+		<xs:annotation>
+			<xs:documentation>full address</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="Unit" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation/>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:maxLength value="300"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="StreetNumber">
+				<xs:annotation>
+					<xs:documentation>the number on the street.</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:maxLength value="10"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="StreetName">
+				<xs:annotation>
+					<xs:documentation>Identifies the name of the street.</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:maxLength value="300"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="StreetType">
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:maxLength value="15"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="StreetDirection" type="XSEnumCodeType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>1 N
+2 S
+3 E
+4 W
+5 NE
+6 NW
+7 SE
+8 SW</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="City">
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:maxLength value="20"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="ProvinceCode">
+				<xs:annotation>
+					<xs:documentation>Provinces / States code</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:maxLength value="4"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="PostalCode" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>standard 2 characters province or states code</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:maxLength value="20"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="CountryCode" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Standard 3 charcaters country code</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:maxLength value="3"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:simpleType name="XSEnumCodeType">
+		<xs:restriction base="xs:int"/>
+	</xs:simpleType>
+	<xs:complexType name="XSContactMethodsType">
+		<xs:sequence>
+			<xs:element name="Telephone" minOccurs="0" maxOccurs="unbounded">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="TelType" type="XSEnumCodeType">
+							<xs:annotation>
+								<xs:documentation>0 - Home Phone
+1 - Cell Phone
+2 - Fax
+4 - Work Phone</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+						<xs:element name="TelNumber">
+							<xs:simpleType>
+								<xs:restriction base="xs:string">
+									<xs:maxLength value="100"/>
+								</xs:restriction>
+							</xs:simpleType>
+						</xs:element>
+						<xs:element name="Extension" minOccurs="0">
+							<xs:simpleType>
+								<xs:restriction base="xs:string">
+									<xs:maxLength value="10"/>
+								</xs:restriction>
+							</xs:simpleType>
+						</xs:element>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="Email" minOccurs="0">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="EmailAddress">
+							<xs:simpleType>
+								<xs:restriction base="xs:string">
+									<xs:maxLength value="100"/>
+								</xs:restriction>
+							</xs:simpleType>
+						</xs:element>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="XSCommentType">
+		<xs:sequence>
+			<xs:element name="Content">
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:maxLength value="8192"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="CommentType" type="XSEnumCodeType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Enum: 
+0 - System
+1 - Broker
+2 - Solicitor
+3 - Underwriter
+4 - Lender
+99 - Other</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Title" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Title/Subject</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:maxLength value="100"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="CommentDate" type="xs:dateTime"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="XSIncomeType">
+		<xs:sequence>
+			<xs:element name="ID" minOccurs="0">
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:maxLength value="50"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="IncomeType" type="XSEnumCodeType">
+				<xs:annotation>
+					<xs:documentation>Enum: 
+0 - Salary
+1 - Hourly
+10 - Other
+11 - Other Employment Income
+2 - Hourly + Commissions
+3 - Commissions
+4 - Interest Income
+5 - Child Support
+6 - Self-Employed
+7 - Pension
+8 - Alimony
+9 - Rental Income</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Description" minOccurs="0">
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:maxLength value="300"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="Frequency" type="XSEnumCodeType">
+				<xs:annotation>
+					<xs:documentation>
+0 Annual
+1 Semi-Annual
+2 Quarterly
+3 Monthly
+4 Semi-Monthly
+5 Bi-Weekly
+6 Weekly</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Amount" type="xs:decimal" default="0"/>
+			<xs:element name="PrimaryIncome" type="xs:boolean" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="XSSubjectPropertyType">
+		<xs:complexContent>
+			<xs:extension base="XSPropertyBaseType">
+				<xs:sequence>
+					<xs:element name="DwelingType" type="XSEnumCodeType">
+						<xs:annotation>
+							<xs:documentation>Enum: 
+1 - Deteched
+2 - Semi
+3 - Duplex
+4 - Row
+5 - Apartment
+6 - Mobile
+8 - Tri Plex
+9 - Other
+10 - Stacked
+17 - Modular
+18 - Four Plex</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="AppraisedValue" type="xs:decimal"/>
+					<xs:element name="PurchasePrice" type="xs:decimal"/>
+					<xs:element name="OriginalPurchasePrice" type="xs:decimal" minOccurs="0"/>
+					<xs:element name="PurchaseDate" type="xs:date" minOccurs="0"/>
+					<xs:element name="Style" type="XSEnumCodeType">
+						<xs:annotation>
+							<xs:documentation>Enum: 
+1 - One Storey
+2 - Bi - Level
+3 - Two Storey
+4 - Split Level
+5 - 1 1/2 Storey
+6 - 3 Storey
+99 - Other</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="DwelingSize" type="XSSizeType"/>
+					<xs:element name="YearConstructed" type="xs:int"/>
+					<xs:element name="Units" type="xs:int"/>
+					<xs:element name="Tenure" type="XSEnumCodeType">
+						<xs:annotation>
+							<xs:documentation>Emum:
+0 - Freehold
+1 - Leasehold
+2 - Condominium</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="HeatSource" type="XSEnumCodeType">
+						<xs:annotation>
+							<xs:documentation>Enum:
+1 - Electric Baseboard
+2 - Forced Air Gas/Oil/Electric
+3 - Hot Water
+4 - Other</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="WaterSupply" type="XSEnumCodeType">
+						<xs:annotation>
+							<xs:documentation>Enum:
+0 - Uknown
+1 - Municipal
+2 - Co-Operative
+3 - Drilled Well
+4 - Dug Well
+5 - Share Well
+6 - Community Well
+7 - Lake Intake
+8 - None
+9 - Other</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="Sewer" type="XSEnumCodeType">
+						<xs:annotation>
+							<xs:documentation>Enum:
+0 - Uknown
+1 - Sewer Connected
+2 - Sewer Not Connected
+3 - Septic Installed
+4 - Septic Approved
+5 - None</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="Zoning" type="XSEnumCodeType" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>Enum: 1-Major Urban Residential, 
+2 Urban Residential, 
+3 Rural Residential, 
+4 Agricultural, 
+5 Agricultural land reserve, 
+6 Recreational / Cottage, 
+7 Commercial, 
+8 Commercial / Residential, 
+99 Other</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="ListingType" type="XSEnumCodeType" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>
+0 - MLS
+1 - Exclusive
+2 - Private</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="MLSNumber" minOccurs="0">
+						<xs:simpleType>
+							<xs:restriction base="xs:string">
+								<xs:maxLength value="50"/>
+							</xs:restriction>
+						</xs:simpleType>
+					</xs:element>
+					<xs:element name="TaxRollNumber" minOccurs="0">
+						<xs:simpleType>
+							<xs:restriction base="xs:string">
+								<xs:maxLength value="100"/>
+							</xs:restriction>
+						</xs:simpleType>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="XSRequestedLoanType">
+		<xs:sequence>
+			<xs:element name="MortgageRank" type="xs:int">
+				<xs:annotation>
+					<xs:documentation>1 - First 2 - Second 3 - Third etc.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="LoanType" type="XSEnumCodeType">
+				<xs:annotation>
+					<xs:documentation>0 - Mortgage 
+1 - HELOC</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="ExistingBalance" type="xs:decimal" minOccurs="0"/>
+			<xs:element name="Amount" type="xs:decimal"/>
+			<xs:element name="TotalAmount" type="xs:decimal" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Amount + Premium</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Term" type="xs:int"/>
+			<xs:element name="Amortization" type="xs:int"/>
+			<xs:element name="ClosingDate" type="xs:date"/>
+			<xs:element name="IAD" type="xs:date">
+				<xs:annotation>
+					<xs:documentation>Interest Adjustment Date</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="PaymentTermType" type="XSEnumCodeType">
+				<xs:annotation>
+					<xs:documentation>Enum: 
+0 - Closed,
+1 - Open, 
+2 - Convertible</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="RepaymentFrequency" type="XSEnumCodeType">
+				<xs:annotation>
+					<xs:documentation>Enum: 
+0 Monthly
+1 Semi Monthly
+2 Biweekly
+3 Accelerated Biweekly
+4 Weekly
+5 Accelerated Weekly</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="RepaymentAmount" type="xs:decimal" minOccurs="0"/>
+			<xs:element name="RepaymentType" type="XSEnumCodeType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>0 Blended_PI
+1 Interest Plus Fixed Principal
+2 Interest Only Variable
+3 Interest Only Fixed
+4 At_Maturity
+</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="InsuranceType" type="XSEnumCodeType">
+				<xs:annotation>
+					<xs:documentation>Enum: 
+0 - None, 
+1 - CMHC, 
+2 - GE, 
+7 - CG, 
+8 - Self-Insured
+99 - Other</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Premium" type="xs:decimal" minOccurs="0"/>
+			<xs:element name="InsuranceFeeAmount" type="xs:decimal" minOccurs="0"/>
+			<xs:element name="InsuranceIncluded" type="xs:boolean" minOccurs="0"/>
+			<xs:element name="Rate">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="NetRate" type="xs:decimal"/>
+						<xs:element name="InterestRate" type="xs:decimal" minOccurs="0"/>
+						<xs:element name="PostedRate" type="xs:decimal" minOccurs="0"/>
+						<xs:element name="RequestedRate" type="xs:decimal" minOccurs="0"/>
+						<xs:element name="PremiumRate" type="xs:decimal" minOccurs="0"/>
+						<xs:element name="Discount" type="xs:decimal" minOccurs="0"/>
+						<xs:element name="BrokerBuyDown" type="xs:decimal" minOccurs="0"/>
+						<xs:element name="CustomerBuyDown" type="xs:decimal" minOccurs="0"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="InterestCompound" type="XSEnumCodeType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Enum:
+0 - Semi Annually
+1 - Monthly
+</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="InterestType" type="XSEnumCodeType">
+				<xs:annotation>
+					<xs:documentation>Enum:
+1 - Fixed
+2 - Adjustable
+3 - Buydown
+4 - VRM
+6 - Capped Var</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="ProductType" type="XSEnumCodeType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Enum: 1- Rate Option Plus (Screen 6 Product field)
+TBD</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Cashback" minOccurs="0">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="Override" type="xs:int">
+							<xs:annotation>
+								<xs:documentation>0 - Amount is calculate from Percentage
+1 - Percentage is claculated from Amount</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+						<xs:element name="Amount" type="xs:decimal"/>
+						<xs:element name="Percentage" type="xs:decimal"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="Downpayment" minOccurs="0" maxOccurs="unbounded">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="Source" type="XSEnumCodeType">
+							<xs:annotation>
+								<xs:documentation>1 - Cash
+2 - RRSP
+3 - Gift
+4 - Borrowed Against Liquid Assets
+5 - Sale of Other Property
+6 - Sweat Equity
+7 - FlexDown CashBack
+8 - FlexDown Borrowed
+9 - FlexDown Gifts Grants
+10 - FlexDown Sweat Equity
+99 - Other</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+						<xs:element name="Description" minOccurs="0">
+							<xs:simpleType>
+								<xs:restriction base="xs:string">
+									<xs:maxLength value="300"/>
+								</xs:restriction>
+							</xs:simpleType>
+						</xs:element>
+						<xs:element name="Amount" type="xs:decimal">
+							<xs:annotation>
+								<xs:documentation/>
+							</xs:annotation>
+						</xs:element>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="PropertyTaxPayor" type="XSEnumCodeType">
+				<xs:annotation>
+					<xs:documentation>Enum:
+0 - Borrower, 
+1 - Lender</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="QualifyDetail" minOccurs="0">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="Payment" type="xs:decimal" minOccurs="0"/>
+						<xs:element name="GDS" type="xs:decimal" minOccurs="0"/>
+						<xs:element name="TDS" type="xs:decimal" minOccurs="0"/>
+						<xs:element name="Rate" type="xs:decimal" minOccurs="0"/>
+						<xs:element name="Amortization" type="xs:int" minOccurs="0"/>
+						<xs:element name="InterestCompound" type="XSEnumCodeType" minOccurs="0">
+							<xs:annotation>
+								<xs:documentation>0 Semi-Annually
+1 Monthly</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+						<xs:element name="RepaymentType" type="XSEnumCodeType" minOccurs="0">
+							<xs:annotation>
+								<xs:documentation>0 Blended_PI
+1 Interest Plus Fixed Principal
+2 Interest Only Variable
+3 Interest Only Fixed
+4 At_Maturity
+</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="XSExistingLoanType">
+		<xs:sequence>
+			<xs:element name="MortgageRank" type="xs:int"/>
+			<xs:element name="ExistingLoanNumber" minOccurs="0">
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:maxLength value="100"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="ExistingLoanHolder" minOccurs="0">
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:maxLength value="100"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="OriginalAmount" type="xs:decimal" minOccurs="0"/>
+			<xs:element name="Balance" type="xs:decimal"/>
+			<xs:element name="Term" type="xs:int" minOccurs="0"/>
+			<xs:element name="Amortization" type="xs:int" minOccurs="0"/>
+			<xs:element name="LoanType" type="XSEnumCodeType">
+				<xs:annotation>
+					<xs:documentation>1 - Mortgage
+2 - HELOC</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="IAD" type="xs:date" minOccurs="0"/>
+			<xs:element name="RepaymentType" type="XSEnumCodeType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>0 Blended_PI
+1 Interest Plus Fixed Principal
+2 Interest Only Variable
+3 Interest Only Fixed
+4 At_Maturity
+</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="RepaymentAmount" type="xs:decimal"/>
+			<xs:element name="RepaymentFrequency" type="XSEnumCodeType">
+				<xs:annotation>
+					<xs:documentation>Enum: 
+0 Monthly
+1 Semi Monthly
+2 Biweekly
+3 Accelerated Biweekly
+4 Weekly
+5 Accelerated Weekly</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Premium" type="xs:decimal" minOccurs="0"/>
+			<xs:element name="InterestType" type="XSEnumCodeType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Enum: 
+1 - Fixed
+2 - Adjustable
+3 - Buydown
+4 - VRM
+6 - Capped Var
+</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="InterestRate" type="xs:decimal" minOccurs="0"/>
+			<xs:element name="InterestCompound" type="XSEnumCodeType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Enum:
+0 - Semi Annually
+1 - Monthly</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Insurance" type="XSInsuranceType" minOccurs="0"/>
+			<xs:element name="MaturityDate" type="xs:date" minOccurs="0"/>
+			<xs:element name="RepaymentPrivilege" type="XSEnumCodeType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Enum:
+1 - 15% and Double Up
+2 - 15% and 15% and Double Up
+99 - Fully Open</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="PrepaymentOption" type="XSEnumCodeType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Enum:
+1 - 3 Month Penalty
+2 - Open Afer 3 Years
+99 - Not Applicable</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="PayoffType" type="XSEnumCodeType">
+				<xs:annotation>
+					<xs:documentation>1 - Prior to Advance
+2 - From Proceeds</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="XSPropertyBaseType">
+		<xs:sequence>
+			<xs:element name="Address" type="XSAddressType"/>
+			<xs:element name="AppraisalDate" type="xs:dateTime" minOccurs="0"/>
+			<xs:element name="LotSize" type="XSSizeType" minOccurs="0"/>
+			<xs:element name="NewConstruction" type="XSEnumCodeType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>0 Existing
+2 New</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="GarageSize" type="XSEnumCodeType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Enum: 
+1 - Single, 
+2 - Double, 
+3 - Tripple, 
+4 - None</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="GarageType" type="XSEnumCodeType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Enum: 
+1 - Attached, 
+2 - Detached
+0 - N/A</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="EnvironmentHazard" type="XSEnumCodeType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>1 - Yes
+0 - No</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Occupancy" type="XSEnumCodeType">
+				<xs:annotation>
+					<xs:documentation>Enum:
+0 Owner-Occupied
+1 Owner-Occupied and Rental
+2 Rental
+3 Second Home</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="LegalDescription" type="xs:string" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="Zoning" type="XSEnumCodeType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Enum: 
+1 Major Urban Residential, 
+2 Urban Residential, 
+3 Rural Residential, 
+4 Agricultural, 
+5 Agricultural land reserve, 
+6 Recreational / Cottage, 
+7 Commercial, 
+8 Commercial / Residential, 
+99 Other</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="RentalIncome" type="XSIncomeType" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="Expense" type="XSExpenseType" minOccurs="0" maxOccurs="unbounded"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="XSExistingPropertyType">
+		<xs:complexContent>
+			<xs:extension base="XSPropertyBaseType">
+				<xs:sequence>
+					<xs:element name="DwelingType" type="XSEnumCodeType" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>Enum: 
+1 - Deteched
+2 - Semi
+3 - Duplex
+4 - Row
+5 - Apartment
+6 - Mobile
+8 - Tri Plex
+9 - Other
+10 - Stacked
+17 - Modular
+18 - Four Plex</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="AppraisedValue" type="xs:decimal" minOccurs="0"/>
+					<xs:element name="PurchasePrice" type="xs:decimal" minOccurs="0"/>
+					<xs:element name="YearConstructed" type="xs:int" minOccurs="0"/>
+					<xs:element name="EstimatedRealtyTaxes" type="xs:decimal" minOccurs="0"/>
+					<xs:element name="Style" type="XSEnumCodeType" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>Enum: 
+1 - One Storey
+2 - Bi - Level
+3 - Two Storey
+4 - Split Level
+5 - 1 1/2 Storey
+6 - 3 Storey
+99 - Other</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="DwelingSize" type="XSSizeType" minOccurs="0"/>
+					<xs:element name="Units" type="xs:int" minOccurs="0"/>
+					<xs:element name="Tenure" type="XSEnumCodeType" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>Emum:
+1 - Freehold
+2 - Leasehold
+3 - Condominium</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="GarageSize" type="XSEnumCodeType" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>Enum: 
+1 - Single, 
+2 - Double, 
+3 - Tripple, 
+0 - None</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="GarageType" type="XSEnumCodeType" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>Enum: 
+1 - Attached, 
+2 - Detached
+0 - N/A</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="HeatSource" type="XSEnumCodeType" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>Enum:
+1 - Electric Baseboard
+2 - Forced Air Gas/Oil/Electric
+3 - Hot Water
+4 - Other</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="WaterSupply" type="XSEnumCodeType" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>Enum:
+0 - Uknown
+1 - Co-Operative
+3 - Drilled Well
+4 - Dug Well
+5 - Share Well
+6 - Community Well
+7 - Lake Intake
+8 - None
+9 - Other</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="Sewer" type="XSEnumCodeType" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>Enum:
+0 - Uknown
+1 - Sewer Connected
+2 - Sewer Not Connected
+3 - Septic Installed
+4 - Septic Approved
+5 - None</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="XSDocumentType">
+		<xs:sequence>
+			<xs:element name="Name">
+				<xs:annotation>
+					<xs:documentation>Free text for document name.</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:maxLength value="100"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="DocumentType" type="XSEnumCodeType">
+				<xs:annotation>
+					<xs:documentation>Document type Enum, e.g. Credit Bureau/ appraisal etc.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Description">
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:maxLength value="300"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="Document" type="xs:string">
+				<xs:annotation>
+					<xs:documentation>64 bit encoded string representing the document itself.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="FileExtension">
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:maxLength value="15"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="XSSizeType">
+		<xs:sequence>
+			<xs:element name="UnitOfMeasure" type="XSEnumCodeType">
+				<xs:annotation>
+					<xs:documentation>Enum:
+0 - Sq Meter 
+1 - Sq Feet
+2 - Acre
+3 - Hectares
+</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Size" type="xs:decimal"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="XSLiabilityType">
+		<xs:sequence>
+			<xs:element name="LiabilityType" type="XSEnumCodeType">
+				<xs:annotation>
+					<xs:documentation>Enum:
+0 Mortgage
+2 Credit Card
+3 Personal Loan
+4 Auto Loan
+5 Alimony
+6 Child Support
+7 Student Loan
+8 Wage Garnishment
+9 Other
+10 Unsecured Line of Credit
+11 Income Tax
+12 Mortgage on a Rental Property
+13 Secured Line of Credit
+14 Lease
+15 Rent
+16 Auto Lease</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Amount" type="xs:decimal"/>
+			<xs:element name="Description" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation/>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:maxLength value="300"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="Frequency" type="XSEnumCodeType">
+				<xs:annotation>
+					<xs:documentation>
+0 Annual
+1 Semi-Annual
+2 Quarterly
+3 Monthly
+4 Semi-Monthly
+5 Bi-Weekly
+6 Weekly</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="RepaymentAmount" type="xs:decimal"/>
+			<xs:element name="Creditor" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Institution</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:maxLength value="100"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="CreditLimit" type="xs:decimal" minOccurs="0"/>
+			<xs:element name="PayoffType" type="XSEnumCodeType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>1 - Prior to Advance
+2 - From Proceeds</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="MaturityDate" type="xs:date" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="XSExpenseType">
+		<xs:sequence>
+			<xs:element name="ExpenseType" type="XSEnumCodeType">
+				<xs:annotation>
+					<xs:documentation>0 - Municipal Taxes
+1 - Condo Fees
+2 - Heating Expense
+3 - Insurance
+4 - Hydro
+5 - Management Expenses
+6 - Repairs
+7 - Interest Charges
+8 - General Expenses
+9 - School Taxes
+99 - Other</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Description" minOccurs="0">
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:maxLength value="100"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="Frequency" type="XSEnumCodeType">
+				<xs:annotation>
+					<xs:documentation>
+0 Annual
+1 Semi-Annual
+2 Quarterly
+3 Monthly
+4 Semi-Monthly
+5 Bi-Weekly
+6 Weekly
+</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Amount" type="xs:decimal"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="XSInsuranceType">
+		<xs:sequence>
+			<xs:element name="InsurerReference">
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:maxLength value="100"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="InsurerName">
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:maxLength value="200"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="XSApplicantType">
+		<xs:sequence>
+			<xs:element name="ID" type="xs:string" minOccurs="0"/>
+			<xs:element name="ApplicantType" type="XSEnumCodeType">
+				<xs:annotation>
+					<xs:documentation>Enum: 0 - Applicant,
+          2 - Guarantor </xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="SIN">
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:maxLength value="50"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="CreditScore" type="xs:int"/>
+			<xs:element name="Name" type="XSPersonNameType"/>
+			<xs:element name="DateOfBirth" type="xs:date"/>
+			<xs:element name="FirstBuyer" type="XSEnumCodeType">
+				<xs:annotation>
+					<xs:documentation>0 No
+1 Yes</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Gender" type="XSEnumCodeType">
+				<xs:annotation>
+					<xs:documentation>0 - Unspecified
+1 - Male
+2 - Female</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="MaritalStatus" type="XSEnumCodeType">
+				<xs:annotation>
+					<xs:documentation>
+0 Single
+2 Married
+3 Common Law
+4 Separated
+5 Divorced
+6 Widowed
+7 Other
+
+</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="BankruptcyStatus" type="XSEnumCodeType">
+				<xs:annotation>
+					<xs:documentation>0 Never Bankrupt
+1 Fully Discharged
+2 Partially Discharged</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="ResidencyStatus" type="XSEnumCodeType">
+				<xs:annotation>
+					<xs:documentation>0 Citizen
+1 Unknown
+2 Resident
+3 Landed Immigrant
+4 Foreign Alien
+5 Student Visa
+6 Work Visa
+7 Non Resident</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Citizenship" maxOccurs="unbounded">
+				<xs:annotation>
+					<xs:documentation>Standard 3 characters Country code</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:maxLength value="4"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="IsEmpoyee" type="XSEnumCodeType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>0 - No
+1 - Yes</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="EmpoyeeNumber" minOccurs="0">
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:maxLength value="100"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="Language" type="XSEnumCodeType">
+				<xs:annotation>
+					<xs:documentation>0 English
+1 French</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Primary" type="xs:boolean"/>
+			<xs:element name="RelationshipToPrimary" type="XSEnumCodeType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>0 Spouse
+1 Common-Law
+2 Related Family Member
+3 Other
+4 Parent
+5 Sibling
+6 Child
+7 Grandchild
+8 Grandparent</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Dependencies" type="xs:int" minOccurs="0"/>
+			<xs:element name="ApplicantAddress" minOccurs="0" maxOccurs="unbounded">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="AddressType" type="XSEnumCodeType">
+							<xs:annotation>
+								<xs:documentation>Enum:
+0 - Current
+1 - Previous Address
+2 - Mailing
+3 - Other</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+						<xs:element name="FromDate" type="xs:date" minOccurs="0"/>
+						<xs:element name="ToDate" type="xs:date" minOccurs="0"/>
+						<xs:element name="OccupancyStatus" type="XSEnumCodeType">
+							<xs:annotation>
+								<xs:documentation>Enum: 
+1 Own
+2 Rent
+3 Live With Parents
+99 Other</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+						<xs:element name="RentPayment" type="xs:decimal" minOccurs="0"/>
+						<xs:element name="Address" type="XSAddressType"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="Identification" minOccurs="0" maxOccurs="unbounded">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="IdType" type="XSEnumCodeType">
+							<xs:annotation>
+								<xs:documentation>10 Birth Certificate
+11 Driver's License
+12 Health Insurance Card
+13 Old Age Security Card
+14 Social Insurance Card
+30 Certificate of Naturalization
+31 Citizenship Certificate
+32 Green Card
+33 IMM 1000 Immigration Form
+34 IMM 1442 Citizenship and Immigration Canada
+35 Passport
+36 Permanent Resident Card or IMM5292
+50 Alberta Registries
+51 Dept. of Community Govt. and Trans.
+52 Dept. of Govt. Services and Lands NL
+53 Dept. of Service of NS and Municipal Relations
+54 Dept. of Trans. and Public Works PEI
+55 Government of the NT Dept. of Trans.
+56 Insurance Corporation of BC
+57 Saskatchewan Government Insurance
+58 Service New Brunswick
+70 ABM card or Client Card
+71 Client Card from the CNIB
+72 Credit Card
+73 Employee ID Card
+90 Other</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+						<xs:element name="Country">
+							<xs:annotation>
+								<xs:documentation>Country name</xs:documentation>
+							</xs:annotation>
+							<xs:simpleType>
+								<xs:restriction base="xs:string"/>
+							</xs:simpleType>
+						</xs:element>
+						<xs:element name="Region" minOccurs="0">
+							<xs:simpleType>
+								<xs:restriction base="xs:string">
+									<xs:maxLength value="100"/>
+								</xs:restriction>
+							</xs:simpleType>
+						</xs:element>
+						<xs:element name="IdNumber">
+							<xs:simpleType>
+								<xs:restriction base="xs:string">
+									<xs:maxLength value="100"/>
+								</xs:restriction>
+							</xs:simpleType>
+						</xs:element>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="Income">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="Employment" minOccurs="0" maxOccurs="unbounded">
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element name="ID" type="xs:string" minOccurs="0"/>
+									<xs:element name="EmploymentType" type="XSEnumCodeType">
+										<xs:annotation>
+											<xs:documentation>
+0  Full Time
+1  Part Time
+2  Seasonal
+3  Disability
+4  Self-Employed
+5  Retired
+99 Other
+</xs:documentation>
+										</xs:annotation>
+									</xs:element>
+									<xs:element name="EmployerName">
+										<xs:simpleType>
+											<xs:restriction base="xs:string">
+												<xs:maxLength value="50"/>
+											</xs:restriction>
+										</xs:simpleType>
+									</xs:element>
+									<xs:element name="EmployerAddress" type="XSAddressType"/>
+									<xs:element name="ContactName" type="XSPersonNameType" minOccurs="0"/>
+									<xs:element name="PreferredContactMethod" type="XSEnumCodeType" minOccurs="0">
+										<xs:annotation>
+											<xs:documentation>Preferred contact method type Id
+0 - Home Phone
+1 - Cell Phone
+2 - Fax
+3 - Email
+4 - Work Phone</xs:documentation>
+										</xs:annotation>
+									</xs:element>
+									<xs:element name="EmployerContacts" type="XSContactMethodsType"/>
+									<xs:element name="EmploymentStatus" type="XSEnumCodeType">
+										<xs:annotation>
+											<xs:documentation>0 - Current
+1 - Previous</xs:documentation>
+										</xs:annotation>
+									</xs:element>
+									<xs:element name="IndustryType" type="XSEnumCodeType">
+										<xs:annotation>
+											<xs:documentation>0 Other
+1 Construction
+2 Government
+3 Health
+4 Education
+5 High-Tech
+6 Retail Sales
+7 Leisure/Entertainment
+8 Banking/Finance
+9 Transportation
+10 Services
+11 Manufacturing
+12 Farming/Natural Resources
+13 Varies</xs:documentation>
+										</xs:annotation>
+									</xs:element>
+									<xs:element name="MonthsAtIndustry" type="xs:int"/>
+									<xs:element name="OwnerStatus" type="XSEnumCodeType">
+										<xs:annotation>
+											<xs:documentation>1 Sole proprietorship
+2 Partnership
+3 Limited partnership
+4 Limited liability company (LLC)
+5 Corporation (for-profit)
+6 Nonprofit corporation (not-for-profit)
+7 Cooperative</xs:documentation>
+										</xs:annotation>
+									</xs:element>
+									<xs:element name="Occupation" type="XSEnumCodeType">
+										<xs:annotation>
+											<xs:documentation>1 - Manager
+2 - Clerical
+3 - Blue Collar
+4 - Retired
+5 - Professional
+6 - Self-Employed
+0 - Other</xs:documentation>
+										</xs:annotation>
+									</xs:element>
+									<xs:element name="JobTitle">
+										<xs:simpleType>
+											<xs:restriction base="xs:string">
+												<xs:maxLength value="50"/>
+											</xs:restriction>
+										</xs:simpleType>
+									</xs:element>
+									<xs:element name="StartDate" type="xs:date"/>
+									<xs:element name="EndDate" type="xs:date" minOccurs="0"/>
+									<xs:element name="Income" type="XSIncomeType"/>
+									<xs:element name="SelfEmployment" minOccurs="0">
+										<xs:complexType>
+											<xs:sequence>
+												<xs:element name="CompanyType" type="xs:string" minOccurs="0"/>
+												<xs:element name="GrossRevenue" type="xs:decimal" minOccurs="0"/>
+												<xs:element name="OperatingAs" minOccurs="0">
+													<xs:simpleType>
+														<xs:restriction base="xs:string">
+															<xs:maxLength value="200"/>
+														</xs:restriction>
+													</xs:simpleType>
+												</xs:element>
+											</xs:sequence>
+										</xs:complexType>
+									</xs:element>
+								</xs:sequence>
+							</xs:complexType>
+						</xs:element>
+						<xs:element name="Other" type="XSIncomeType" minOccurs="0" maxOccurs="unbounded"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="Asset" type="XSAssetType" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="Liability" type="XSLiabilityType" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="CreditReport" minOccurs="0" maxOccurs="unbounded">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="BureauSource" type="XSEnumCodeType">
+							<xs:annotation>
+								<xs:documentation>1 Equifax
+2 TransUnion</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+						<xs:element name="ReportType" type="XSEnumCodeType">
+							<xs:annotation>
+								<xs:documentation>0 Single
+1 Joint</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+						<xs:element name="AuthorizationDate" type="xs:dateTime" minOccurs="0"/>
+						<xs:element name="AuthorizationMethod" type="xs:string" minOccurs="0"/>
+						<xs:element name="Summary" type="xs:string" minOccurs="0"/>
+						<xs:element name="DatePulled" type="xs:date"/>
+						<xs:element name="CreditScore" type="xs:int" minOccurs="0"/>
+						<xs:element name="Language" type="XSEnumCodeType">
+							<xs:annotation>
+								<xs:documentation>0 English
+1 French</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+						<xs:element name="IsPrimary" type="xs:boolean"/>
+						<xs:element name="Report" minOccurs="0" maxOccurs="unbounded">
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element name="ReportFormat" type="XSEnumCodeType">
+										<xs:annotation>
+											<xs:documentation>1 XML
+2 HTML
+3 Text
+0 Other</xs:documentation>
+										</xs:annotation>
+									</xs:element>
+									<xs:element name="ReportText" type="xs:string"/>
+								</xs:sequence>
+							</xs:complexType>
+						</xs:element>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="PreferredContactMethod" type="XSEnumCodeType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Preferred contact method type ID
+0 - Home Phone
+1 - Cell Phone
+2 - Fax
+3 - Email
+4 - Work Phone</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="ContactMethods" type="XSContactMethodsType" minOccurs="0"/>
+			<xs:element name="OtherProperty" minOccurs="0" maxOccurs="unbounded">
+				<xs:annotation>
+					<xs:documentation>Other properties associated/owned by applicant.</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="ID" minOccurs="0">
+							<xs:simpleType>
+								<xs:restriction base="xs:string">
+									<xs:maxLength value="100"/>
+								</xs:restriction>
+							</xs:simpleType>
+						</xs:element>
+						<xs:element name="SharedWithApplicantId" minOccurs="0" maxOccurs="unbounded">
+							<xs:simpleType>
+								<xs:restriction base="xs:string">
+									<xs:maxLength value="100"/>
+								</xs:restriction>
+							</xs:simpleType>
+						</xs:element>
+						<xs:element name="Mortgage" minOccurs="0" maxOccurs="unbounded">
+							<xs:annotation>
+								<xs:documentation>ToDo: Business to review how much information we need to capture about a mortgage on an existing property.</xs:documentation>
+							</xs:annotation>
+							<xs:complexType>
+								<xs:complexContent>
+									<xs:extension base="XSExistingLoanType"/>
+								</xs:complexContent>
+							</xs:complexType>
+						</xs:element>
+						<xs:element name="Property" minOccurs="0">
+							<xs:complexType>
+								<xs:complexContent>
+									<xs:extension base="XSExistingPropertyType"/>
+								</xs:complexContent>
+							</xs:complexType>
+						</xs:element>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="XSAssetType">
+		<xs:sequence>
+			<xs:element name="AssetType" type="XSEnumCodeType">
+				<xs:annotation>
+					<xs:documentation>0 Savings
+1 RRSP
+2 Gift
+4 Vehicle
+6 Stocks/Bonds/Mutual
+8 Other
+11 Household Goods
+12 Life Insurance
+13 Deposit on Purchase</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Description" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation/>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:maxLength value="300"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="Value" type="xs:decimal"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="XSPartyType">
+		<xs:sequence>
+			<xs:element name="Name">
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:maxLength value="100"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="LastName" minOccurs="0">
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:maxLength value="50"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="Role" type="XSEnumCodeType">
+				<xs:annotation>
+					<xs:documentation>Enium: 
+1 - Co-Broker
+2 - Solicitor
+3 - Appraiser</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Contact" type="XSContactMethodsType"/>
+			<xs:element name="Address" type="XSAddressType" minOccurs="0"/>
+			<xs:element name="CompanyName" minOccurs="0">
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:maxLength value="100"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="XSPersonNameType">
+		<xs:sequence>
+			<xs:element name="Title" type="xs:string" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>1 - Mr.
+2 - Mrs.
+3 - Ms.
+4 - Dr.
+5 - Rev.
+6 - Miss
+7 - Judge</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Suffix" type="xs:string" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>1 - Sr.
+2 - Jr.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="FirstName">
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:maxLength value="50"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="MiddleName" minOccurs="0">
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:maxLength value="50"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="LastName">
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:maxLength value="50"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+</xs:schema>
